@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    id="com.speedshare.cordova.video"
+    version="1.0.0">
+
+    <name>SpeedshareCordovaPlugin</name>
+    <description>Add live video streaming to your Cordova Application</description>
+    <license>Apache 2.0</license>
+    <keywords>Speedshare</keywords>
+
+    <js-module src="www/speedshareVideo.js" name="speedshare">
+      <clobbers target="com.speedshare.cordova.video" />
+    </js-module>
+
+    <!-- ios -->
+    <platform name="ios">
+      <header-file src="src/ios/SpeedsharePlugin.h" />
+      <source-file src="src/ios/SpeedsharePlugin.m" />
+
+      <framework src="libiconv.dylib" />
+      <framework src="libz.dylib" />
+      <framework src="Accelerate.framework" />
+      <framework src="AVFoundation.framework" />
+      <framework src="SystemConfiguration.framework" />
+      <framework src="MediaPlayer.framework" />
+      <framework src="AudioToolbox.framework" />
+      <framework src="OpenGLES.framework" />
+      <framework src="QuartzCore.framework" />
+      <framework src="UIKit.framework" />
+      <framework src="Foundation.framework" />
+      <framework src="CoreGraphics.framework" />
+
+      <!-- Adopts project's config.xml to include the SpeedshareCordovaPlugin and domain whitelists -->
+
+      <config-file target="config.xml" parent="/*">
+          <feature name="SpeedsharePlugin">
+              <param name="ios-package" value="SpeedsharePlugin"/>
+          </feature>
+      </config-file>
+      <config-file target="config.xml" parent="/*">
+        <access origin="*" />
+      </config-file>
+    </platform>
+</plugin>
