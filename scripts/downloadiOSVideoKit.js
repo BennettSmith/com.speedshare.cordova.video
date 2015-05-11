@@ -12,7 +12,7 @@ module.exports = function (context) {
       exec('unzip -P \'BUAQ!R8RHabK7XrGfUKH\' ./VideoKit_2.3_lc.zip', function (err, out, code) {
         console.log('expanded');
         var frameworkDir = context.opts.plugin.dir + '/src/ios/VideoKit';
-        var frameworkDir = './plugins/com.speedshare.cordova.video/src/ios/VideoKit';
+        //var frameworkDir = './plugins/com.speedshare.cordova.video/src/ios/VideoKit';
         exec('mv ./VideoKit/VideoKit ' + frameworkDir, function (err, out, code) {
           console.log('moved VideoKit ' + frameworkDir);
           console.log('cleaning up');
