@@ -15,8 +15,18 @@
 
     <!-- ios -->
     <platform name="ios">
+      <hook type="before_plugin_install" src="scripts/downloadiOSVideoKit.js" />
+
       <header-file src="src/ios/SpeedsharePlugin.h" />
       <source-file src="src/ios/SpeedsharePlugin.m" />
+
+
+      <framework src="libavutil.a" />
+      <framework src="libavcodec.a" />
+      <framework src="libswresample.a" />
+      <framework src="libavformat.a" />
+      <framework src="libswscale.a" />
+
 
       <framework src="libiconv.dylib" />
       <framework src="libz.dylib" />
