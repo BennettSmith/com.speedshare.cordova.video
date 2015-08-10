@@ -9,7 +9,7 @@
 #import "VKPlayerController.h"
 
 
-@interface SpeedsharePlugin : CDVPlugin
+@interface SpeedsharePlugin : CDVPlugin <VKPlayerControllerDelegate>
 
 // SSVideo
 - (void)startSession:(CDVInvokedUrlCommand*)command;

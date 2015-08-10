@@ -1,22 +1,33 @@
 window.SSVideo = {
-  originalWidth: 0,
-  originalHeight: 0,
-  streamWidth: 0,
-  streamHeight: 0,
-  startSession: function(path, top, left, width, height, streamWidth, streamHeight) {
-    if (top === undefined) top = 192;
-    if (left === undefined) left = 0;
-    if (width === undefined) width = 320;
-    if (height === undefined) height = 200;
-    window.SSVideo.originalWidth = width;
-    window.SSVideo.originalHeight = height;
-    window.SSVideo.streamWidth = streamWidth;
-    window.SSVideo.streamHeight = streamHeight;
+  left:0,
+  top:0,
+  height:525,
+  width:375,
+  scrolltop: 0,
+  scrollleft: 0,
+  localscrolltop: 0,
+  localscrollleft: 0,
+  canvasleft:0,
+  canvastop:98,
+  videoHeight:768,
+  videoWidth:1028,
+  scale:1,
+  videoStarted: false,
+  videoPlaying: false,
+  startSession: function(cb) {
+    SSVideo.videoStarted = true;
+    SSVideo.videoPlaying = true;
 
-    width = width * (window.SSVideo.streamWidth / window.SSVideo.originalWidth);
-    height = height * (window.SSVideo.streamHeight / window.SSVideo.originalHeight);
+    var top = (SSVideo.top) * SSVideo.scale + SSVideo.localscrolltop + SSVideo.canvastop;
+    var left = (SSVideo.left) * SSVideo.scale + SSVideo.localscrollleft + SSVideo.canvasleft;
+    var width = SSVideo.scale * SSVideo.videoWidth;
+    var height = SSVideo.scale * SSVideo.videoHeight;
 
-    Cordova.exec(SSVideo.SSVideoSuccess, SSVideo.SSVideoError, 'SpeedsharePlugin', 'startSession', [path, top, left, width, height]);
+    if (cb) {
+      Cordova.exec(cb, SSVideo.SSVideoError, 'SpeedsharePlugin', 'startSession', [SSVideo.path, top, left, width, height]);
+    } else {
+      Cordova.exec(SSVideo.SSVideoSuccess, SSVideo.SSVideoError, 'SpeedsharePlugin', 'startSession', [SSVideo.path, top, left, width, height]);      
+    }
     var ele = document.body;
     ele.className = ele.className.trim() + ' transparent';
     ele.style.backgroundColor = 'rgba(0,0,0,0)';
@@ -30,49 +41,34 @@ window.SSVideo = {
         window.document.body.removeChild(div);
       }, 100);
     }, 2000);
-
-    /*
-    ele = document.getElementsByClassName('pane view-container')[0];
-    ele.style.display='none';
-    ele.offsetHeight; // no need to store this anywhere, the reference is enough
-    ele.style.display='block';
-
-    ele = document.body;
-    ele.style.display='none';
-    ele.offsetHeight; // no need to store this anywhere, the reference is enough
-    ele.style.display='block';
-
-    ele = document.body.parentElement;
-    ele.style.display='none';
-    ele.offsetHeight; // no need to store this anywhere, the reference is enough
-    ele.style.display='block';
-  */
-    /*
-    ele = document.body.getElementsByClassName('pane view-container')[0];
-    ele.style.backgroundColor = 'rgba(255,255,255,1)';
-    setTimeout(function() {
-      ele.style.backgroundColor = 'rgba(0,0,0,0)';
-    }, 3000);
-    */
-    /*
-    document.body.parentElement.style.display = 'none';
-    //var trick = document.body.parentElement.offsetHeight;
-    setTimeout(function() {
-      document.body.parentElement.style.display = 'block';
-    }, 0);
-*/
-    //var event = new Event('resize');
-    //window.dispatchEvent(event);
   },
   stopSession: function() {
+    SSVideo.videoPlaying = false;
+
     Cordova.exec(SSVideo.SSVideoSuccess, SSVideo.SSVideoError, 'SpeedsharePlugin', 'stopSession', []);
     var ele = document.body;
     ele.className = ele.className.replace(/ transparent/g,'');
     ele.style.backgroundColor = '';
   },
-  updateView: function(top, left, width, height) {
-    Cordova.exec(SSVideo.SSVideoSuccess, SSVideo.SSVideoError, 'SpeedsharePlugin', 'updateView', [top, left, width, height]);
+  pauseSession: function() {
+    SSVideo.videoPlaying = false;
+
+    Cordova.exec(SSVideo.SSVideoSuccess, SSVideo.SSVideoError, 'SpeedsharePlugin', 'stopSession', []);
   },
+  playSession: function(cb) {
+    SSVideo.videoPlaying = true;
+
+    var top = (SSVideo.top) * SSVideo.scale + SSVideo.localscrolltop + SSVideo.canvastop;
+    var left = (SSVideo.left) * SSVideo.scale + SSVideo.localscrollleft + SSVideo.canvasleft;
+    var width = SSVideo.scale * SSVideo.videoWidth;
+    var height = SSVideo.scale * SSVideo.videoHeight;
+
+    if (cb) {
+      Cordova.exec(cb, SSVideo.SSVideoError, 'SpeedsharePlugin', 'startSession', [SSVideo.path, top, left, width, height]);
+    } else {
+      Cordova.exec(SSVideo.SSVideoSuccess, SSVideo.SSVideoError, 'SpeedsharePlugin', 'startSession', [SSVideo.path, top, left, width, height]);      
+    }
+ },
   updateStream: function() {
     Cordova.exec(SSVideo.SSVideoSuccess, SSVideo.SSVideoError, 'SpeedsharePlugin', 'updateStream', []);
   },
@@ -81,5 +77,34 @@ window.SSVideo = {
   },
   SSVideoError: function(data) {
     console.log('SSVideoError', data);
+  },
+  attachListeners: function(speedshare, viewer) {
+    /*
+    done in browserController so it can use ionicloading
+    speedshare.on('remote#playVideo', function(type, data){
+      if (window.SSVideo.videoStarted) {
+        window.SSVideo.playSession();
+      } else {
+        window.SSVideo.startSession();
+      }
+    });
+    */
+    speedshare.on('remote#pauseVideo', function(type, data){
+      if (window.SSVideo.videoStarted) {
+        window.SSVideo.pauseSession();
+      }
+    });
+    speedshare.on('canvas#resize', function(type, data){
+      window.SSVideo.path = data.path;
+      window.SSVideo.scale = data.scale;
+      if (viewer) {
+        window.SSVideo.startSession();
+      }
+    });
+    speedshare.on('connect#stop', function(type, data){
+      if (window.SSVideo.videoStarted) {
+        window.SSVideo.stopSession();
+      }
+    });
   }
 };
