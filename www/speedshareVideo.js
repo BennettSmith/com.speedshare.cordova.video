@@ -14,6 +14,7 @@ window.SSVideo = {
   scale:1,
   videoStarted: false,
   videoPlaying: false,
+  viewer: false,
   startSession: function(cb) {
     SSVideo.videoStarted = true;
     SSVideo.videoPlaying = true;
@@ -50,6 +51,9 @@ window.SSVideo = {
     ele.className = ele.className.replace(/ transparent/g,'');
     ele.style.backgroundColor = '';
   },
+  setViewer: function(v) {
+    SSVideo.viewer = v;
+  },
   pauseSession: function() {
     SSVideo.videoPlaying = false;
 
@@ -78,7 +82,7 @@ window.SSVideo = {
   SSVideoError: function(data) {
     console.log('SSVideoError', data);
   },
-  attachListeners: function(speedshare, viewer) {
+  attachListeners: function(speedshare) {
     /*
     done in browserController so it can use ionicloading
     speedshare.on('remote#playVideo', function(type, data){
@@ -97,7 +101,7 @@ window.SSVideo = {
     speedshare.on('canvas#resize', function(type, data){
       window.SSVideo.path = data.path;
       window.SSVideo.scale = data.scale;
-      if (viewer) {
+      if (SSVideo.viewer) {
         window.SSVideo.startSession();
       }
     });
