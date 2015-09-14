@@ -12,23 +12,14 @@ module.exports = function (context) {
       exec('unzip ./VideoKit.zip', function (err, out, code) {
         console.log('expanded');
         var frameworkDir = context.opts.plugin.dir + '/src/ios/';
-        //var frameworkDir = './plugins/com.speedshare.cordova.video/src/ios/VideoKit';
-        //exec('rm ./VideoKit/VideoKit/Controller/VKPlayerController.h', function (err, out, code) {
-        //  exec('rm ./VideoKit/VideoKit/Controller/VKPlayerController.m', function (err, out, code) {
-        //    exec('mv ' + frameworkDir + 'VKPlayerController.h ./VideoKit/VideoKit/Controller/VKPlayerController.h', function (err, out, code) {
-        //      exec('mv ' + frameworkDir + 'VKPlayerController.m ./VideoKit/VideoKit/Controller/VKPlayerController.m', function (err, out, code) {
-                exec('mv ./VideoKit/VideoKit ' + frameworkDir + 'VideoKit', function (err, out, code) {
-                  console.log('moved VideoKit ' + frameworkDir + 'VideoKit');
-                  console.log('cleaning up');
-                  exec('rm -f -r ./VideoKit', function (err, out, code) {
-                    exec('rm ./VideoKit.zip', function (err, out, code) {
-                      deferral.resolve();
-                    });
-                  });
-                });
-       //       });
-       //     });
-       //   });
+        exec('mv ./VideoKit/VideoKit ' + frameworkDir + 'VideoKit', function (err, out, code) {
+          console.log('moved VideoKit ' + frameworkDir + 'VideoKit');
+          console.log('cleaning up');
+          exec('rm -f -r ./VideoKit', function (err, out, code) {
+            exec('rm ./VideoKit.zip', function (err, out, code) {
+              deferral.resolve();
+            });
+          });
         });
       });
     }
