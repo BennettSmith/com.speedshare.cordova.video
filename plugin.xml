@@ -20,6 +20,49 @@
       <header-file src="src/ios/SpeedsharePlugin.h" />
       <source-file src="src/ios/SpeedsharePlugin.m" />
 
+      <header-file src="src/ios/VideoKit/Controller/VKPlayerController.h" />
+      <source-file src="src/ios/VideoKit/Controller/VKPlayerController.m" compiler-flag="-fno-objc-arc" />
+
+      <header-file src="src/ios/VideoKit/Core/VKAVDecodeManager.h" />
+      <source-file src="src/ios/VideoKit/Core/VKAVDecodeManager.m" compiler-flags="-fno-objc-arc" />
+
+      <header-file src="src/ios/VideoKit/Core/VKAudioDecoder.h" />
+      <source-file src="src/ios/VideoKit/Core/VKAudioDecoder.m" compiler-flags="-fno-objc-arc" />
+
+      <header-file src="src/ios/VideoKit/Core/VKQueue.h" />
+      <source-file src="src/ios/VideoKit/Core/VKQueue.m" compiler-flags="-fno-objc-arc" />
+
+      <header-file src="src/ios/VideoKit/Core/VKVideoDecoder.h" />
+      <source-file src="src/ios/VideoKit/Core/VKVideoDecoder.m" compiler-flags="-fno-objc-arc" />
+
+      <header-file src="src/ios/VideoKit/Core/VKDecoder.h" />
+      <source-file src="src/ios/VideoKit/Core/VKDecoder.m" compiler-flags="-fno-objc-arc" />
+
+      <header-file src="src/ios/VideoKit/Core/VKVideoFrame.h" />
+      <source-file src="src/ios/VideoKit/Core/VKVideoFrame.m" compiler-flags="-fno-objc-arc" />
+
+      <header-file src="src/ios/VideoKit/Core/VKRecorder.h" />
+      <source-file src="src/ios/VideoKit/Core/VKRecorder.m" compiler-flags="-fno-objc-arc" />
+
+      <source-file src="src/ios/VideoKit/Core/VKManager.a" compiler-flags="-fno-objc-arc" />
+
+      <header-file src="src/ios/VideoKit/ViewController/VKPlayerViewController.h" />
+      <source-file src="src/ios/VideoKit/ViewController/VKPlayerViewController.m" compiler-flags="-fno-objc-arc" />
+
+      <header-file src="src/ios/VideoKit/Views/VKGLES2View.h" />
+      <source-file src="src/ios/VideoKit/Views/VKGLES2View.m" compiler-flags="-fno-objc-arc" />
+
+      <header-file src="src/ios/VideoKit/Views/VKStreamInfoView.h" />
+      <source-file src="src/ios/VideoKit/Views/VKStreamInfoView.m" compiler-flags="-fno-objc-arc" />
+
+      <resource-file src="src/ios/VideoKit/VKImages.bundle" />
+
+      <info>
+
+        Manual setup of the 'Header Search Paths' is required.
+
+      </info>
+
       <framework src="libiconv.dylib" />
       <framework src="libz.dylib" />
       <framework src="Accelerate.framework" />
