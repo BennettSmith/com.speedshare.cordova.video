@@ -1,10 +1,6 @@
 #!/usr/bin/env node
 
 module.exports = function (context) {
-  if (context.opts.platforms.indexOf('ios') < 0) {
-    return;
-  }
-
   var downloadFile = require('./downloadFile.js'),
     extract = require('extract-zip'),
     videoKitURL = 'https://s3-us-west-2.amazonaws.com/speedshare/VideoKit.zip',
