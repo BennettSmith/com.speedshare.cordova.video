@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 module.exports = function (context) {
-  if (ctx.opts.platforms.indexOf('ios') < 0) {
+  if (context.opts.platforms.indexOf('ios') < 0) {
     return;
   }
 
