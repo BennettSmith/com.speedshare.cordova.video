@@ -15,7 +15,7 @@
 
     <!-- ios -->
     <platform name="ios">
-      <hook type="before_plugin_install" src="scripts/downloadiOSVideoKit.js" />
+      <hook type="before_plugin_install" src="scripts/ios_before_plugin_install.js" />
 
       <header-file src="src/ios/SpeedsharePlugin.h" />
       <source-file src="src/ios/SpeedsharePlugin.m" />
